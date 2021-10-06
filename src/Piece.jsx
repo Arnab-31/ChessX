@@ -10,7 +10,6 @@ export default function Piece({piece: {type,color},position}) {
             id: `${position}_${type}_${color}`
         },
         collect: (monitor) => {
-            console.log("drag")
             return {isDragging: !!monitor.isDragging()}
         }
     })
