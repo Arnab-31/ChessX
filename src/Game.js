@@ -10,6 +10,11 @@ export function initGame() {
     updateGame();
 }
 
+export function resetGame() {
+    chess.reset();
+    updateGame()
+}
+
 export function handleMove(from, to){
     const promotions = chess.moves({ verbose: true}).filter(m => m.promotion)
 
@@ -41,10 +46,35 @@ export function move(from, to, promotion) {
 
 
 function updateGame(pendingPromotion) {
+    const isGameOver = chess.game_over()
+
     const newGame = {
         board: chess.board(),
-        pendingPromotion
+        pendingPromotion,
+        isGameOver,
+        result: isGameOver ?  getGameResult() : null
     }
 
     gameSubject.next(newGame);
+}
+
+function getGameResult() {
+    if(chess.in_checkmate()) {
+        const winner = chess.turn() == "w" ? 'BLACK' : 'WHITE'
+        return `CHECKMATE - WINNER - ${winner}`
+    }else if(chess.in_draw()){
+        let reason  = '50 - MOVES - RULE'
+
+        if(chess.in_stalemate()){
+            reason = 'STALEMATE'
+        } else if(chess.in_three){
+            reason = 'REPETITION'
+        } else if(chess.insufficient_material()){
+            reason = 'INSUFFICIENT MATERIAL'
+        }
+
+        return `DRAW - ${reason}`
+    }else {
+        return 'UNKNOWN REASON'
+    }
 }

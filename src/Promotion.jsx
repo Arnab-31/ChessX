@@ -13,7 +13,7 @@ export default function Promote({promotion: {from, to, color}}) {
                 <Square black={i%3 === 0}>
                     <div className="piece-container" onClick={()=>move(from, to, p)}>
                         <img 
-                            src={require(`./assets/${p}_w.png`)}
+                            src={require(`./assets/${p}_${color}.png`)}
                             alt=""
                             className="piece" 
                         />
