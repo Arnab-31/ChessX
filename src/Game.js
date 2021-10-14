@@ -1,5 +1,8 @@
 import * as Chess from 'chess.js'
 import {BehaviorSubject} from 'rxjs'
+import evaluateBoard from './EvaluateBoard'
+import getBestMove from './ChessAI'
+import { wait } from '@testing-library/dom'
 
 
 const chess = new Chess()
@@ -38,23 +41,50 @@ export function move(from, to, promotion) {
         tempMove.promotion = promotion;
     }
     const legalMove = chess.move(tempMove)
+   
+
 
     if(legalMove){
-        updateGame()
+        
+        // const moves = chess.moves()
+        // let move;
+        // let value = 99999;
+
+        // moves.forEach(m => {
+        //     chess.move(m)
+        //     if(evaluateBoard(chess.board()) < value){
+        //         value = evaluateBoard(chess.board());
+        //         move = m;
+        //     }
+
+        //     chess.undo()
+        // });
+
+        // chess.move(move)
+       
+        updateGame();
+        setTimeout(() =>{
+            let bestMove = getBestMove(chess);
+            chess.move(bestMove);
+            updateGame();
+        }, 100);
+        
     }
+
+ 
 }  
 
 
 function updateGame(pendingPromotion) {
     const isGameOver = chess.game_over()
-
+    
     const newGame = {
         board: chess.board(),
         pendingPromotion,
         isGameOver,
         result: isGameOver ?  getGameResult() : null
     }
-
+    console.log("update game: " + chess.ascii())
     gameSubject.next(newGame);
 }
 
