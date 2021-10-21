@@ -63,9 +63,11 @@ export function move(from, to, promotion) {
         // chess.move(move)
        
         updateGame();
+        console.log("AI move")
         setTimeout(() =>{
             let bestMove = getBestMove(chess);
             chess.move(bestMove);
+            console.log(bestMove)
             updateGame();
         }, 100);
         

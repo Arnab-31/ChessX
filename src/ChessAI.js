@@ -23,7 +23,7 @@ const minimaxRoot =function(depth, game, isMaximisingPlayer) {
 const minimax = function (depth, game, alpha, beta, isMaximisingPlayer) {
     //positionCount++;
     if (depth === 0) {
-        return -evaluateBoard(game.board());
+        return -evaluateBoard(game);
     }
 
     var newGameMoves = game.moves();
