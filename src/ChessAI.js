@@ -1,5 +1,6 @@
 import evaluateBoard from "./EvaluateBoard";
 
+let allowQuiesce = false;
 
 const minimaxRoot =function(depth, game, isMaximisingPlayer) {
 
@@ -23,9 +24,13 @@ const minimaxRoot =function(depth, game, isMaximisingPlayer) {
 const minimax = function (depth, game, alpha, beta, isMaximisingPlayer) {
   
     if (depth === 0) {
-        return -evaluateBoard(game);
+      
+        if(allowQuiesce)
+            return -Quiesce(game, alpha, beta, true, 2)
+        else   
+            return -evaluateBoard(game);
     }
-    
+
     var newGameMoves = game.moves( { verbose: true } );
 
     for ( let move of newGameMoves ) {
@@ -63,9 +68,55 @@ const minimax = function (depth, game, alpha, beta, isMaximisingPlayer) {
     }
 };
 
+const Quiesce = function(game, alpha, beta, isBlack, depth){
+    var evaluation;
+
+    if(!isBlack)
+        evaluation = -evaluateBoard(game);
+    else   
+        evaluation =  evaluateBoard(game);
+
+    if(depth == 0)
+        return evaluation;
+
+    if(evaluation >= beta)
+        return beta;
+
+    if(alpha < evaluation)
+        alpha = evaluation;
+
+    var newGameMoves = game.moves( { verbose: true } );
+    var captureMoves = []
+
+    captureMoves = newGameMoves.filter(move => move.flags.includes( 'c' ));
+
+ 
+    for (var i = 0; i < captureMoves.length; i++) {
+        
+        console.log("Quiesce ", captureMoves[i])
+        game.move(captureMoves[i]);
+
+        let score = -Quiesce(game, -beta, -alpha, !isBlack, depth -1);
+        game.undo();
+
+        if(score >= beta)
+            return beta;
+
+        if(score > alpha)
+            alpha = score;
+    }
+
+    return alpha;
+   
+}
+
 
 const getBestMove = function (game) {
     const depth = 3;
+
+    if(depth == 3){
+        allowQuiesce = true;
+    }
     var bestMove = minimaxRoot(depth, game, true);
     return bestMove;
 };
