@@ -1,0 +1,43 @@
+.square_black {
+    background: white;
+    width: 100%;
+    height: 100%;
+}
+
+.square_white {
+    background: rgb(99, 90, 90);
+    width: 100%;
+    height: 100%;
+}
+
+.board_square {
+    width: 100%;
+    height: 100%;
+}
+
+.piece_container {
+    cursor: grab;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.piece {
+    max-width: 70%;
+    max-height: 70%;
+}
+
+
+.board {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.promote_square {
+    width: 50%;
+    height: 50%;
+}

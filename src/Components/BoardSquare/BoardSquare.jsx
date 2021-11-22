@@ -2,9 +2,12 @@ import React, {useEffect, useState} from "react";
  import Square from "./Square";
 import Piece from "./Piece";
 import { useDrop } from "react-dnd";
-import { handleMove } from "./Game";
-import { gameSubject } from "./Game";
+import { handleMove } from "../../Game";
+import { gameSubject } from "../../Game";
 import Promote from "./Promotion";
+import styles from "./BoardSquare.module.css"
+
+
 
 export default function BoardSquare({piece, black, position}) {
 
@@ -27,7 +30,7 @@ export default function BoardSquare({piece, black, position}) {
     })
     
     return (
-        <div className="board-square" ref={drop}>
+        <div className={styles.board_square} ref={drop}>
             <Square black={black}>
                 {promotion 
                     ? <Promote promotion={promotion} /> 

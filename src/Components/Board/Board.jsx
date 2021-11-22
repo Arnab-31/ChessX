@@ -1,5 +1,6 @@
 import React from "react";
-import BoardSquare from "./BoardSquare";
+import BoardSquare from "../BoardSquare/BoardSquare";
+import styles from "./Board.module.css"
 
 export default function Board ({board}){
     console.log(board)
@@ -23,10 +24,10 @@ export default function Board ({board}){
         return `${letter}${y+1}`
     }
 
-    return <div className="board">
+    return <div className={styles.board}>
         {
             board.flat().map((piece, i) => (
-                <div key={i} className="square">
+                <div key={i} className={styles.square}>
                     <BoardSquare 
                         piece={piece} 
                         black={isBlack(i)}

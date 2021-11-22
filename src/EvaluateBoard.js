@@ -1,4 +1,4 @@
-import Piece from "./Piece";
+import Piece from "./Components/BoardSquare/Piece";
 
 var reverseArray = function(array) {
     return array.slice().reverse();

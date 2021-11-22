@@ -114,9 +114,9 @@ const Quiesce = function(game, alpha, beta, isBlack, depth){
 const getBestMove = function (game) {
     const depth = 3;
 
-    if(depth == 3){
-        allowQuiesce = true;
-    }
+    // if(depth == 3){
+    //     allowQuiesce = true;
+    // }
     var bestMove = minimaxRoot(depth, game, true);
     return bestMove;
 };

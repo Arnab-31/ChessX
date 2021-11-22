@@ -1,0 +1,100 @@
+
+.nav{
+    width: 90%;
+    padding: 10px 5%;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Cinzel', serif;
+}
+
+
+.leftNav{
+    display: flex;
+}
+
+
+.logo{
+    height: 70px;
+    margin-right: 5px;
+}
+
+
+.title{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 25px;
+    font-family: 'Cinzel', serif;
+}
+
+
+.rightNav{
+    display: flex;
+}
+.navLinks{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.navLinks p{
+    font-size: 16px;
+}
+
+
+.mainContainer{
+    width: 90%;
+    display: flex;
+    padding: 1% 5%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.mainImage{
+    width: 100%;
+}
+
+
+
+.textBox{
+  font-family: 'Cinzel', serif;
+}
+.textBox h1{
+ font-size: 60px;
+ margin-bottom: 10px;
+
+}
+
+.textBox p{
+    font-size: 20px;
+    margin-bottom: 70px;
+}
+
+.leftContainer{
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.rightContainer{
+    width: 60%;
+}
+
+
+.btn{
+    font-size: 20px;
+    padding: 10px 5px;
+    border-radius: 30px;
+    border: 1px solid black;
+    min-width: 100px;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.btn:hover{
+    background-color: white;
+    color: black;
+}
