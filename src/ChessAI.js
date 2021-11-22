@@ -21,12 +21,20 @@ const minimaxRoot =function(depth, game, isMaximisingPlayer) {
 };
 
 const minimax = function (depth, game, alpha, beta, isMaximisingPlayer) {
-    //positionCount++;
+  
     if (depth === 0) {
         return -evaluateBoard(game);
     }
+    
+    var newGameMoves = game.moves( { verbose: true } );
 
-    var newGameMoves = game.moves();
+    for ( let move of newGameMoves ) {
+    move.importance = 0
+        + move.flags.includes( 'p' ) ? 16 : 0
+        + move.flags.includes( 'c' ) ? 8 : 0;   
+    }
+
+    newGameMoves.sort( ( a, b ) => b.importance - a.importance );
 
     if (isMaximisingPlayer) {
         var bestMove = -9999;
@@ -57,17 +65,8 @@ const minimax = function (depth, game, alpha, beta, isMaximisingPlayer) {
 
 
 const getBestMove = function (game) {
-    
-    //positionCount = 0;
-    //var depth = parseInt($('#search-depth').find(':selected').text());
     const depth = 3;
-    //var d = new Date().getTime();
     var bestMove = minimaxRoot(depth, game, true);
-    //var d2 = new Date().getTime();
-    //var moveTime = (d2 - d);
-    //var positionsPerS = ( positionCount * 1000 / moveTime);
-
-    
     return bestMove;
 };
 
