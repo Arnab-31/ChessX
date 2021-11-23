@@ -217,7 +217,6 @@ const evaluateBoard = function (game) {
     transpositionTable[hash] = totalEvaluation;
     // console.log(hash)
     // console.log(transpositionTable[hash])
-   
     return totalEvaluation;
 };
 

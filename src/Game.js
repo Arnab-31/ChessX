@@ -5,7 +5,7 @@ import getBestMove from './ChessAI'
 import { wait } from '@testing-library/dom'
 
 
-const chess = new Chess()
+export const chess = new Chess()
 let gameLevel;
 
 export const gameSubject = new BehaviorSubject()
@@ -14,6 +14,8 @@ export function initGame(level) {
     gameLevel = level;
     updateGame();
 }
+
+
 
 export function resetGame() {
     chess.reset();

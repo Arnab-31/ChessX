@@ -76,3 +76,24 @@
     border-radius: 10px;
 
 } 
+
+.evalBar{
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+}
+
+.progress1 {
+    width:50px;
+   
+    position:relative;
+    background-color: black;
+}
+
+.progress2 {
+    width:50px;
+
+    position:relative;
+    background-color: white;
+}
+
