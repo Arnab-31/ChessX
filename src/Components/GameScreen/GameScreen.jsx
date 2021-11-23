@@ -9,7 +9,15 @@ function GameScreen() {
   const [isGameOver, setIsGameOver] = useState()
   const [result, setResult] = useState()
   useEffect(() => {
-    initGame()
+
+    const queryString = window.location.search;    
+    const urlParams = new URLSearchParams(queryString);
+    let level = urlParams.get('level');
+    level = parseInt(level);
+
+    console.log('level ',level)
+
+    initGame(level)
     const subscribe = gameSubject.subscribe((game) =>{
       setBoard(game.board)
       setIsGameOver(game.isGameOver)

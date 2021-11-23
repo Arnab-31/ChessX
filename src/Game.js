@@ -6,10 +6,12 @@ import { wait } from '@testing-library/dom'
 
 
 const chess = new Chess()
+let gameLevel;
 
 export const gameSubject = new BehaviorSubject()
 
-export function initGame() {
+export function initGame(level) {
+    gameLevel = level;
     updateGame();
 }
 
@@ -65,7 +67,7 @@ export function move(from, to, promotion) {
         updateGame();
         console.log("AI move")
         setTimeout(() =>{
-            let bestMove = getBestMove(chess);
+            let bestMove = getBestMove(chess,gameLevel);
             chess.move(bestMove);
             console.log(bestMove)
             updateGame();

@@ -181,9 +181,9 @@ const evaluateBoard = function (game) {
   
     var hash = computeHash(board)
     if(transpositionTable[hash]){
-        console.log(transpositionTable[hash])
-        console.log("Matched")
-        console.log(game.ascii())
+        //console.log(transpositionTable[hash])
+        //console.log("Matched")
+        //console.log(game.ascii())
         return transpositionTable[hash];
     }
        

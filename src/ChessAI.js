@@ -1,3 +1,4 @@
+import { identity } from "rxjs";
 import evaluateBoard from "./EvaluateBoard";
 
 let allowQuiesce = false;
@@ -93,7 +94,7 @@ const Quiesce = function(game, alpha, beta, isBlack, depth){
  
     for (var i = 0; i < captureMoves.length; i++) {
         
-        console.log("Quiesce ", captureMoves[i])
+        //console.log("Quiesce ", captureMoves[i])
         game.move(captureMoves[i]);
 
         let score = -Quiesce(game, -beta, -alpha, !isBlack, depth -1);
@@ -111,12 +112,23 @@ const Quiesce = function(game, alpha, beta, isBlack, depth){
 }
 
 
-const getBestMove = function (game) {
-    const depth = 3;
+const getBestMove = function (game,level) {
+    let depth = 3;
 
-    // if(depth == 3){
-    //     allowQuiesce = true;
-    // }
+
+    if(level === 1){
+        depth = 2;
+    }else if(level === 2){
+        depth = 3;
+    }else if(level === 3){
+        depth = 3;
+        allowQuiesce = true;
+    }else if(level === 4){
+        depth =  4;
+    }
+
+    console.log("AI depth", depth, " ",level)
+   
     var bestMove = minimaxRoot(depth, game, true);
     return bestMove;
 };

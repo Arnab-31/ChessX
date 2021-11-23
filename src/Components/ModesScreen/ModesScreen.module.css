@@ -1,0 +1,115 @@
+
+.nav{
+    width: 90%;
+    padding: 10px 5%;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Cinzel', serif;
+}
+
+
+.leftNav{
+    display: flex;
+}
+
+
+.logo{
+    height: 70px;
+    margin-right: 5px;
+}
+
+
+.title{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 25px;
+    font-family: 'Cinzel', serif;
+}
+
+
+.rightNav{
+    display: flex;
+}
+.navLinks{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.navLinks p{
+    font-size: 16px;
+}
+
+
+.mode{
+
+    min-width: 250px;
+    min-height: 150px;
+    border-radius: 20px;
+    background-position: center;
+    background-size: cover;
+    transition: 0.7s;
+    max-width: 23%;
+    padding-top: 100px;
+}
+
+.bg1{
+    background-image: linear-gradient(45deg, rgba(
+        65, 64, 64, 0.3), rgba(65, 64, 64, 0.3)), url("../../assets/pawn.jpg"); 
+}
+
+.bg2{
+    background-image: linear-gradient(45deg, rgba(
+        65, 64, 64, 0.4), rgba(65, 64, 64, 0.4)),url("../../assets/Bishop.jpg"); 
+}
+
+.bg3{
+    background-image: linear-gradient(45deg, rgba(
+        65, 64, 64, 0.5), rgba(65, 64, 64, 0.5)),url("../../assets/rook.jpg"); 
+}
+
+.bg4{
+    background-image: linear-gradient(45deg, rgba(
+        65, 64, 64, 0.5), rgba(65, 64, 64, 0.5)),url("../../assets/queen.jpg"); 
+}
+
+.mode:hover{
+    transform: scale(1.1); 
+}
+
+.mode h2{
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 25px;
+}
+
+.modesContainer{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    font-family: 'Cinzel', serif;
+}
+
+.Link {
+    text-decoration: none;
+}
+.mainContainer{
+   
+    
+}
+
+
+
+.header{
+    padding:  0 10%;
+    font-family: 'Cinzel', serif;
+    margin-bottom: 60px;
+}
+
+.header h1{
+    text-align: center;
+    font-size: 35px;
+}

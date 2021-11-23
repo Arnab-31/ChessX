@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import styles from  "./Landing.module.css"
 
@@ -29,7 +30,10 @@ export default function Landing (){
                             <h1>Let's Play <br/> Chess</h1>
                             <p>Welcome to the Gentleman's Game!</p>
 
-                            <button className={styles.btn}> Play </button>
+                            <Link to="/modes">
+                                <button className={styles.btn}> Play </button>
+                            </Link>
+                         
                         </div>
                        
                     </div>
