@@ -1,16 +1,23 @@
 import * as Chess from 'chess.js'
+import './firebase';
 import {BehaviorSubject} from 'rxjs'
 import evaluateBoard from './EvaluateBoard'
 import getBestMove from './ChessAI'
 import { wait } from '@testing-library/dom'
+import { db } from './firebase'
+import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
+import { useParams } from 'react-router-dom'
 
 
-export const chess = new Chess()
+export let chess = new Chess()
 let gameLevel;
+let initialBoardData;
+let contextVal  = null; 
 
 export const gameSubject = new BehaviorSubject()
 
-export function initGame(level) {
+export async function initGame(level) {
+
     gameLevel = level;
     updateGame();
 }
@@ -22,7 +29,11 @@ export function resetGame() {
     updateGame()
 }
 
-export function handleMove(from, to){
+export function handleMove(from, to, contextValue){
+    contextVal = contextValue;
+    const pieceColor = chess.get(from).color;
+    if(contextValue.isMultiplayerMode && pieceColor != contextValue.pieceColor) return;
+
     const promotions = chess.moves({ verbose: true}).filter(m => m.promotion)
 
     if(promotions.some(p => `${p.from}:${p.to}` === `${from}:${to}`)){
@@ -39,34 +50,25 @@ export function handleMove(from, to){
 }
 
 export function move(from, to, promotion) {
+   
     let tempMove = {from, to}
 
     if(promotion) {
         tempMove.promotion = promotion;
     }
+
+
     const legalMove = chess.move(tempMove)
    
 
 
     if(legalMove){
-        
-        // const moves = chess.moves()
-        // let move;
-        // let value = 99999;
-
-        // moves.forEach(m => {
-        //     chess.move(m)
-        //     if(evaluateBoard(chess.board()) < value){
-        //         value = evaluateBoard(chess.board());
-        //         move = m;
-        //     }
-
-        //     chess.undo()
-        // });
-
-        // chess.move(move)
-       
+    
         updateGame();
+
+        if(gameLevel == 0)
+            return;
+
         console.log("AI move")
         setTimeout(() =>{
             let bestMove = getBestMove(chess,gameLevel);
@@ -81,7 +83,8 @@ export function move(from, to, promotion) {
 }  
 
 
-function updateGame(pendingPromotion) {
+export async function updateGame(pendingPromotion) {
+  
     const isGameOver = chess.game_over()
     
     const newGame = {
@@ -90,8 +93,37 @@ function updateGame(pendingPromotion) {
         isGameOver,
         result: isGameOver ?  getGameResult() : null
     }
-    console.log("update game: " + chess.ascii())
     gameSubject.next(newGame);
+
+    if(!contextVal || !contextVal.isMultiplayerMode) return;
+
+    const gameId = contextVal.gameId;
+    const docRef = doc(db, 'games',  gameId);
+
+
+    //console.log("update game: " + chess.ascii())
+   
+
+    console.log("board data ", chess.board())
+    await updateDoc(docRef, {
+        boardData:  chess.fen()
+    });
+}
+
+
+export function syncGame(pendingPromotion) {
+  
+    const isGameOver = chess.game_over()
+    
+    const newGame = {
+        board: chess.board(),
+        pendingPromotion,
+        isGameOver,
+        result: isGameOver ?  getGameResult() : null
+    }
+
+    gameSubject.next(newGame);
+    console.log("Game synced");
 }
 
 function getGameResult() {

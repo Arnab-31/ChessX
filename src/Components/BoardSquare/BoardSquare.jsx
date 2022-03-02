@@ -1,5 +1,6 @@
-import React, {useEffect, useState} from "react";
- import Square from "./Square";
+import React, {useEffect, useState, useContext} from "react";
+import context from "../../Context/context";
+import Square from "./Square";
 import Piece from "./Piece";
 import { useDrop } from "react-dnd";
 import { handleMove } from "../../Game";
@@ -12,11 +13,13 @@ import styles from "./BoardSquare.module.css"
 export default function BoardSquare({piece, black, position}) {
 
     const [promotion, setPromotion] = useState(null)
+    const contextValue = useContext(context);
+
     const [, drop] = useDrop({
         accept: 'piece',
         drop: (item) => {
             const [fromPosition] = item.id.split('_')
-            handleMove(fromPosition, position)
+            handleMove(fromPosition, position, contextValue)
             console.log(item)
         },
     })
