@@ -32,7 +32,7 @@ export function resetGame() {
 export function handleMove(from, to, contextValue){
     contextVal = contextValue;
     const pieceColor = chess.get(from).color;
-    if(contextValue.isMultiplayerMode && pieceColor != contextValue.pieceColor) return;
+    if(contextVal.pieceColor === "invalid" || (contextValue.isMultiplayerMode && pieceColor != contextValue.pieceColor)) return;
 
     const promotions = chess.moves({ verbose: true}).filter(m => m.promotion)
 

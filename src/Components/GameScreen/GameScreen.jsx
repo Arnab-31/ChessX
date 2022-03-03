@@ -26,8 +26,9 @@ function GameScreen() {
   const [loading, setLoading] = useState(false);
   let { id } = useParams();
   const contextValue = useContext(Context);
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(null);
   const [oppUsername, setOppUsername] = useState("Waiting for player");
+  const [updated, setIsUpdated] = useState(false);
 
   const updateGameData = async () => {
     setLoading(true);
@@ -39,8 +40,19 @@ function GameScreen() {
 
     const newGameData = {...document.data()};
     const opponentData = newGameData.game.members[0];
-    setOppUsername(opponentData.name);
 
+    if(document.data().game.members.length >= 2){
+      contextValue.setPieceColor("invalid");
+      contextValue.setMultiplayerMode(true);
+      setOppUsername(opponentData.name);
+      setUsername(newGameData.game.members[1].name);
+      setLoading(false);
+      alert("Game full");
+      return;
+    }
+
+    setOppUsername(opponentData.name);
+  
     const startingPiece = opponentData.piece === "w" ? "b" : "w";
     const newPlayer = {
       uid: currentUser.uid,
@@ -72,11 +84,13 @@ function GameScreen() {
     const queryString = window.location.search;    
     const urlParams = new URLSearchParams(queryString);
     let level = urlParams.get('level');
-   
+    
     level = level ? parseInt(level) : 0;
 
     if(level === 0){
-      if(!contextValue.isMultiplayerMode){
+      if(!contextValue.isMultiplayerMode && !updated){
+       setIsUpdated(true);
+      console.log("update function called");
        updateGameData();
       }
     }
@@ -104,6 +118,7 @@ function GameScreen() {
         console.log("Game synced");
         console.log(doc.data())
         setBoard(chess.board())
+        setEvalData(evaluateBoard(chess))
         if(doc.data().game.members.length == 2){
           const name1 = doc.data().game.members[0].name;
           const name2 = doc.data().game.members[1].name;
@@ -119,12 +134,13 @@ function GameScreen() {
   }, [username,oppUsername])
 
   return (
-
+    
     <div className={styles.container}>
+      
       {contextValue.isMultiplayerMode &&
        <div>
       <p style={{color: 'white'}}>{oppUsername}</p><br />
-      <p style={{color: 'white'}}>{contextValue.username}</p>
+      <p style={{color: 'white'}}>{username ? username : contextValue.username}</p>
        </div>}
     
       {isGameOver && (
@@ -139,12 +155,13 @@ function GameScreen() {
         <div className={styles.progress2} style={{height: `${300 + (evalData * 300)/290}px`}}></div>
       </div>
       
+      {loading ? <div>Loading</div> : 
       <div className={styles.board_container}>
         <Board board={board} />
-      </div>
+      </div> }
       {result && <p  className={styles.vertical_text}>{result}</p>}
     </div>
-  
+    
   )
 }
 
