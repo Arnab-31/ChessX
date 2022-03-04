@@ -113,3 +113,84 @@
     text-align: center;
     font-size: 25px;
 }
+
+
+.modeBox{
+    margin: 0 auto;
+    width: fit-content;
+    margin-bottom: 5%;
+}
+
+.modeHeading{
+    font-family: 'Cinzel', serif;
+    text-align: center;
+    font-size: 25px;
+
+}
+
+.modeContainer{
+    display: flex;
+    margin-top: 20px;
+}
+.modeInput{
+    margin-right: 120px;
+}
+.modeText{
+    font-size: 20px;
+    font-family: 'Times New Roman', Times, serif
+}
+
+.playerName{
+    font-size: 20px;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    text-align: center;
+}
+
+.inputBox{
+    width: 200px;
+    margin: 0 auto;
+    text-align: center;
+    height: 20px;
+    font-size: 15px;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.center{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.colorPicker{
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.colorContainer{
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-around;
+    width: 40vw;
+}
+
+
+.btn{
+    font-size: 20px;
+    padding: 10px 5px;
+    border-radius: 30px;
+    border: 1px solid black;
+    min-width: 100px;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+
+.btn:hover{
+    background-color: white;
+    color: black;
+}

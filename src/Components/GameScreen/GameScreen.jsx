@@ -178,12 +178,12 @@ function GameScreen() {
            
            {loading ? <div>Loading</div> : 
            <div className={styles.board_container}>
-             <Board board={board} position={contextValue.isMultiplayerMode ? contextValue.pieceColor === "invalid" ?  "w" : contextValue.pieceColor : "W"} />
+             <Board board={board} position={id ? contextValue.pieceColor === "invalid" ?  "w" : contextValue.pieceColor : "w"} />
            </div> }
            {result && <p  className={styles.vertical_text}>{result}</p>}
-           {contextValue.isMultiplayerMode &&
+           {true &&
             <div className={styles.players}>
-           <p className={styles.playerName}>Player 2 - {oppUsername}</p>
+           <p className={styles.playerName}>Player 2 - {contextValue.isMultiplayerMode ? oppUsername: "Computer AI"}</p>
            <p className={styles.message}>{gameMessage}</p>
            <p className={styles.playerName}>Player 1 - {username ? username : contextValue.username}</p>
             </div>}

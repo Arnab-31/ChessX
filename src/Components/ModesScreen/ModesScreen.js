@@ -74,12 +74,20 @@ export default function ModesScreen (){
 
             <div className={styles.mainContainer}>
 
-                    <div>
-                        <h3>Choose a game mode</h3>
-                        <input type="radio" id="html" name="fav_language" value="HTML" defaultChecked onChange={() => setMode("computer")}/>
-                        <label for="html">Against Computer</label><br/>
-                        <input type="radio" id="css" name="fav_language" value="CSS" onChange={() => setMode("multiplayer")} />
-                        <label for="css">Mutiplayer</label><br/>
+                    <div className={styles.modeBox}>
+                        <h3 className={styles.modeHeading}>Choose a game mode</h3>
+                        <div className={styles.modeContainer}>
+                            <div className={styles.modeInput}>
+                                <input type="radio" id="html" name="fav_language" value="HTML" defaultChecked onChange={() => setMode("computer")}/>
+                                <label for="html" className={styles.modeText}>Against Computer</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="css" name="fav_language" value="CSS" onChange={() => setMode("multiplayer")} />
+                                <label for="css" className={styles.modeText}>Mutiplayer</label>
+                            </div>
+                        </div>
+                       
+                      
                     </div>
 
                 {mode === "computer" && 
@@ -128,25 +136,34 @@ export default function ModesScreen (){
                 }
 
                 {mode === "multiplayer" && 
-                <div>
+                <div className={styles.modeBox}>
                     <div>
-                        <br />
-                        <label>Enter username</label>
-                        <br />
-                        <input  type="text"  onChange={event => setUsername(event.target.value)} />
+                        <p className={styles.playerName}>Enter your name</p>
+                        <div className={styles.center}>
+                            <input  type="text"  onChange={event => setUsername(event.target.value)} className={styles.inputBox} />     
+                        </div>
+                       
                     </div>
-                    <div>
-                        <h3>Choose piece color</h3>
-                        <input type="radio" id="html" name="piece_colors" value="HTML" defaultChecked onChange={() => setPieceColor("b")}/>
-                        <label for="html">Black</label><br/>
-                        <input type="radio" id="css" name="piece_colors" value="CSS" onChange={() => setPieceColor("w")} />
-                        <label for="css">White</label><br/>
-                        <input type="radio" id="css" name="piece_colors" value="CSS" onChange={() => setPieceColor(pieceColors[Math.floor(Math.random()*pieceColors.length)])} />
-                        <label for="css">Random</label><br/>
+                    <div className={styles.colorPicker}>
+                        <h3  className={styles.modeHeading}>Choose piece color</h3>
+                        <div className={styles.colorContainer}>
+                            <div>
+                                <input type="radio" id="html" name="piece_colors" value="HTML" defaultChecked onChange={() => setPieceColor("b")}/>
+                                <label for="html" className={styles.modeText}>Black</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="css" name="piece_colors" value="CSS" onChange={() => setPieceColor("w")} />
+                                <label for="css" className={styles.modeText}>White</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="css" name="piece_colors" value="CSS" onChange={() => setPieceColor(pieceColors[Math.floor(Math.random()*pieceColors.length)])} />
+                                <label for="css" className={styles.modeText}>Random</label><br/>
+                            </div>
+                        </div>
                     </div>
 
-                    <div>
-                        <button onClick={startOnlineGame}>Play</button>
+                    <div className={styles.center}>
+                        <button onClick={startOnlineGame} className={styles.btn}>Play</button>
                     </div>
                 </div>
                 }
