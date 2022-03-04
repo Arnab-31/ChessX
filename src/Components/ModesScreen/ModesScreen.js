@@ -6,6 +6,7 @@ import styles from  "./ModesScreen.module.css"
 import { useHistory } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import context from "../../Context/context";
+import Spinner from "../Spinner/Spinner";
 
 
 export default function ModesScreen (){

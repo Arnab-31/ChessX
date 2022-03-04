@@ -126,7 +126,7 @@ export function syncGame(pendingPromotion) {
     console.log("Game synced");
 }
 
-function getGameResult() {
+export function getGameResult() {
     if(chess.in_checkmate()) {
         const winner = chess.turn() == "w" ? 'BLACK' : 'WHITE'
         return `CHECKMATE - WINNER - ${winner}`

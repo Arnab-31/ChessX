@@ -13,6 +13,9 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { onSnapshot } from 'firebase/firestore';
 import { syncGame } from '../../Game';
 import Context from '../../Context/context'
+import Spinner from "../Spinner/Spinner";
+import { getGameResult } from '../../Game';
+import context from '../../Context/context';
 
 
 
@@ -29,6 +32,7 @@ function GameScreen() {
   const [username, setUsername] = useState(null);
   const [oppUsername, setOppUsername] = useState("Waiting for player");
   const [updated, setIsUpdated] = useState(false);
+  const [gameMessage, setGameMessage] = useState("Drag your pieces to make a move! Best of Luck!")
 
   const updateGameData = async () => {
     setLoading(true);
@@ -44,16 +48,25 @@ function GameScreen() {
     if(document.data().game.members.length >= 2){
       contextValue.setPieceColor("invalid");
       contextValue.setMultiplayerMode(true);
-      setOppUsername(opponentData.name);
-      setUsername(newGameData.game.members[1].name);
+      if(opponentData.piece === "b"){
+        setOppUsername(opponentData.name);
+        setUsername(newGameData.game.members[1].name);
+      }else{
+        setOppUsername(newGameData.game.members[1].name);
+        setUsername(opponentData.name);
+        console.log("Players");
+        console.log(newGameData.game.members[1].name,opponentData.name)
+      }
+        
       setLoading(false);
-      alert("Game full");
+      setGameMessage("Game is already full. You have joined as a spectator!")
       return;
     }
 
     setOppUsername(opponentData.name);
   
     const startingPiece = opponentData.piece === "w" ? "b" : "w";
+    contextValue.setPieceColor(startingPiece);
     const newPlayer = {
       uid: currentUser.uid,
       piece: startingPiece,
@@ -115,11 +128,17 @@ function GameScreen() {
         console.log("snapshot called")
         console.log(doc.data());
         chess.load(doc.data().boardData);
+        if(chess.game_over()){
+          setResult(getGameResult());
+          setIsGameOver(true);
+        }else{
+          setIsGameOver(false);
+        }
         console.log("Game synced");
         console.log(doc.data())
         setBoard(chess.board())
         setEvalData(evaluateBoard(chess))
-        if(doc.data().game.members.length == 2){
+        if(contextValue.pieceColor !=""  && contextValue.pieceColor != "invalid" &&  doc.data().game.members.length == 2){
           const name1 = doc.data().game.members[0].name;
           const name2 = doc.data().game.members[1].name;
           if(contextValue.username === name1)
@@ -131,35 +150,46 @@ function GameScreen() {
     }
 
     return () => subscribe.unsubscribe()
-  }, [username,oppUsername])
+  }, [username,oppUsername,isGameOver])
 
   return (
     
-    <div className={styles.container}>
+    <div>
+      {loading ? <Spinner text = "Your game is loading..." /> :
+           <div className={styles.container}>
       
-      {contextValue.isMultiplayerMode &&
-       <div>
-      <p style={{color: 'white'}}>{oppUsername}</p><br />
-      <p style={{color: 'white'}}>{username ? username : contextValue.username}</p>
-       </div>}
-    
-      {isGameOver && (
-        <h2 className={styles.vertical_text}>  GAME OVER  
-          <button onClick={resetGame}>
-            <span className={styles.vertical_text}>NEW GAME</span>
-          </button>
-        </h2>
-      )}
-      <div className={styles.evalBar}>
-        <div className={styles.progress1} style={{height: `${300 - (evalData * 300)/290}px`}}></div>
-        <div className={styles.progress2} style={{height: `${300 + (evalData * 300)/290}px`}}></div>
-      </div>
-      
-      {loading ? <div>Loading</div> : 
-      <div className={styles.board_container}>
-        <Board board={board} />
-      </div> }
-      {result && <p  className={styles.vertical_text}>{result}</p>}
+           {contextValue.isMultiplayerMode &&
+            <div className={styles.share}>
+             <p className={styles.shareText}>Share the link to let others join or spectate the game!</p>
+             <button className={styles.shareBtn} onClick={() =>  navigator.clipboard.writeText(window.location.href)}>Click to Copy Link</button>
+            </div>}
+           {isGameOver && (
+             <h2 className={styles.vertical_text}>  GAME OVER  
+               {gameMessage === "Drag your pieces to make a move! Best of Luck!" && 
+               <button onClick={resetGame}>
+                 <span className={styles.vertical_text}>NEW GAME</span>
+               </button> }
+             </h2>
+           )}
+           <div className={styles.evalBar}>
+             <div className={styles.progress1} style={{height: `${300 - (evalData * 300)/290}px`}}></div>
+             <div className={styles.progress2} style={{height: `${300 + (evalData * 300)/290}px`}}></div>
+           </div>
+           
+           {loading ? <div>Loading</div> : 
+           <div className={styles.board_container}>
+             <Board board={board} position={contextValue.isMultiplayerMode ? contextValue.pieceColor === "invalid" ?  "w" : contextValue.pieceColor : "W"} />
+           </div> }
+           {result && <p  className={styles.vertical_text}>{result}</p>}
+           {contextValue.isMultiplayerMode &&
+            <div className={styles.players}>
+           <p className={styles.playerName}>Player 2 - {oppUsername}</p>
+           <p className={styles.message}>{gameMessage}</p>
+           <p className={styles.playerName}>Player 1 - {username ? username : contextValue.username}</p>
+            </div>}
+         </div>
+
+      }
     </div>
     
   )
